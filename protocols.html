@@ -871,7 +871,7 @@
 
       function setTheme(theme) {
         html.setAttribute('data-theme', theme);
-        try { localStorage.setItem('jfk-theme', theme); } catch(e) {}
+        // Theme stored in memory only (no localStorage)
         if (theme === 'dark') {
           iconSun.style.display = '';
           iconMoon.style.display = 'none';
@@ -881,12 +881,8 @@
         }
       }
 
-      // Restore saved preference or detect system
-      let saved;
-      try { saved = localStorage.getItem('jfk-theme'); } catch(e) {}
-      if (saved) {
-        setTheme(saved);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      // Detect system preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
         setTheme('light');
       } else {
         setTheme('dark');

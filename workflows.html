@@ -804,7 +804,7 @@
 
     function setTheme(theme) {
       html.setAttribute('data-theme', theme);
-      localStorage.setItem('jfk-theme', theme);
+      // Theme stored in memory only (no localStorage)
       if (theme === 'dark') {
         iconSun.style.display = '';
         iconMoon.style.display = 'none';
@@ -814,10 +814,7 @@
       }
     }
 
-    const saved = localStorage.getItem('jfk-theme');
-    if (saved) {
-      setTheme(saved);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       setTheme('light');
     } else {
       setTheme('dark');
