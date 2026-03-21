@@ -17,7 +17,7 @@
 <link rel="author" href="https://www.perplexity.ai/computer">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Epic Workflows — JFK ADATC</title>
+  <title>Psychiatry Epic Workflows — JFK ADATC</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
   <style>
@@ -56,13 +56,13 @@
       margin-top: 0;
     }
 
-    .workflow-phase-body-inner ul {
+    .workflow-phase-body-inner > ul {
       list-style: none;
       padding: 0;
       margin: 0 0 var(--space-4) 0;
     }
 
-    .workflow-phase-body-inner ul li {
+    .workflow-phase-body-inner > ul > li {
       position: relative;
       padding: var(--space-2) 0 var(--space-2) var(--space-5);
       font-size: var(--text-sm);
@@ -71,7 +71,7 @@
       max-width: none;
     }
 
-    .workflow-phase-body-inner ul li::before {
+    .workflow-phase-body-inner > ul > li::before {
       content: "";
       position: absolute;
       left: var(--space-2);
@@ -83,7 +83,7 @@
       opacity: 0.5;
     }
 
-    .workflow-phase-body-inner ul li strong {
+    .workflow-phase-body-inner > ul > li strong {
       color: var(--text);
       font-weight: 600;
     }
@@ -101,15 +101,245 @@
       font-weight: 600;
     }
 
-    /* Nested list */
-    .workflow-phase-body-inner ul ul {
+    /* Nested list inside plain bullets */
+    .workflow-phase-body-inner > ul ul {
+      list-style: none;
       margin: var(--space-2) 0 var(--space-2) var(--space-3);
+      padding: 0;
     }
 
-    .workflow-phase-body-inner ul ul li::before {
+    .workflow-phase-body-inner > ul ul li {
+      position: relative;
+      padding: var(--space-1) 0 var(--space-1) var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: none;
+    }
+
+    .workflow-phase-body-inner > ul ul li::before {
+      content: "";
+      position: absolute;
+      left: var(--space-2);
+      top: 0.75em;
       background-color: var(--text-muted);
       width: 4px;
       height: 4px;
+      border-radius: var(--radius-full);
+    }
+
+    .workflow-phase-body-inner > ul ul li strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Priority note at top of admission */
+    .priority-note {
+      background-color: var(--teal-bg);
+      border: 1px solid var(--teal-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      margin-bottom: var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--teal);
+      line-height: 1.6;
+    }
+
+    /* ================================================================
+       NESTED COLLAPSIBLE ITEMS (level 2 — items with checkboxes)
+       ================================================================ */
+
+    /* Container for each collapsible item */
+    .wf-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-2);
+      background-color: var(--surface-2);
+      overflow: hidden;
+    }
+
+    /* Item header row: checkbox + title + chevron */
+    .wf-item-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color var(--duration) var(--ease-out);
+    }
+
+    .wf-item-header:hover {
+      background-color: var(--surface-3);
+    }
+
+    /* Custom checkbox for wf-item */
+    .wf-item-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background-color: var(--surface);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: border-color var(--duration) var(--ease-out),
+                  background-color var(--duration) var(--ease-out);
+    }
+
+    .wf-item-checkbox:hover {
+      border-color: var(--teal);
+    }
+
+    .wf-item-checkbox:checked {
+      background-color: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .wf-item-checkbox:checked::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      left: 4px;
+      width: 5px;
+      height: 9px;
+      border: solid var(--bg);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .wf-item-checkbox:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
+
+    /* Item title text */
+    .wf-item-title {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* Checked state: strike-through on title */
+    .wf-item.is-checked .wf-item-title {
+      text-decoration: line-through;
+      text-decoration-color: var(--text-muted);
+      color: var(--text-muted);
+    }
+
+    .wf-item.is-checked .wf-item-header {
+      opacity: 0.6;
+    }
+
+    /* Item chevron */
+    .wf-item-chevron {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform var(--duration) var(--ease-out),
+                  color var(--duration) var(--ease-out);
+    }
+
+    .wf-item.expanded .wf-item-chevron {
+      transform: rotate(180deg);
+      color: var(--teal);
+    }
+
+    /* Item body — hidden by default */
+    .wf-item-body {
+      display: none;
+      padding: var(--space-2) var(--space-3) var(--space-3) calc(var(--space-3) + 17px + var(--space-3));
+      border-top: 1px solid var(--border);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .wf-item.expanded .wf-item-body {
+      display: block;
+    }
+
+    .wf-item-body ul {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-2) 0 0 0;
+    }
+
+    .wf-item-body ul li {
+      position: relative;
+      padding: var(--space-1) 0 var(--space-1) var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: none;
+    }
+
+    .wf-item-body ul li::before {
+      content: "";
+      position: absolute;
+      left: var(--space-1);
+      top: 0.75em;
+      width: 4px;
+      height: 4px;
+      border-radius: var(--radius-full);
+      background-color: var(--teal);
+      opacity: 0.5;
+    }
+
+    .wf-item-body ul li strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .wf-item-body ul ul {
+      margin: var(--space-1) 0 var(--space-1) var(--space-3);
+    }
+
+    .wf-item-body ul ul li::before {
+      background-color: var(--text-muted);
+    }
+
+    .wf-item-body p {
+      margin-bottom: var(--space-2);
+      max-width: none;
+    }
+
+    .wf-item-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .wf-item-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Category group header (h4 within nested structure) */
+    .wf-category {
+      margin-top: var(--space-5);
+      margin-bottom: var(--space-3);
+    }
+
+    .wf-category:first-child {
+      margin-top: 0;
+    }
+
+    .wf-category-header {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-3);
     }
 
     /* SmartPhrase copy toast */
@@ -137,39 +367,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Checklist phase label */
-    .checklist-table .phase-label {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: var(--text-sm);
-      color: var(--teal);
-      white-space: nowrap;
-      vertical-align: top;
-      background-color: var(--teal-bg2);
-      min-width: 100px;
-    }
-
-    .checklist-table .task-cell {
-      line-height: 1.5;
-    }
-
-    .checklist-table .check-cell {
-      width: 36px;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    /* Checklist completed row */
-    .checklist-table tbody tr.checked-row td {
-      opacity: 0.45;
-      text-decoration: line-through;
-      text-decoration-color: var(--text-muted);
-    }
-    .checklist-table tbody tr.checked-row td.check-cell {
-      opacity: 1;
-      text-decoration: none;
-    }
-
     /* Warning banner within workflow body with list support */
     .workflow-phase-body-inner .warning-banner {
       margin-top: var(--space-4);
@@ -194,39 +391,7 @@
       font-weight: 700;
     }
 
-    /* View toggle area */
-    .view-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-3);
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-    }
-
-    /* Workflow view container */
-    .workflow-view {
-      display: none;
-    }
-    .workflow-view.active {
-      display: block;
-    }
-
-    /* File paths */
-    .file-path {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--text-secondary);
-      background-color: var(--surface-2);
-      padding: 0.15em 0.4em;
-      border-radius: var(--radius-sm);
-      word-break: break-all;
-    }
-
     /* Use/Do Not Use lists in Significant Event */
-    .use-list, .do-not-use-list {
-      margin-bottom: var(--space-3) !important;
-    }
     .use-list li::before {
       background-color: var(--teal) !important;
       opacity: 0.8 !important;
@@ -236,23 +401,138 @@
       opacity: 0.8 !important;
     }
 
-    /* Mobile responsive for checklist */
+    /* ================================================================
+       FEEDBACK BOX
+       ================================================================ */
+    /* Red text for Federal requirement warnings */
+    .text-red {
+      color: var(--red, #f87171) !important;
+    }
+
+    .feedback-box {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-top: var(--space-10);
+    }
+
+    .feedback-box h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: var(--space-4);
+    }
+
+    .feedback-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .feedback-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .feedback-field label {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .feedback-field input,
+    .feedback-field textarea {
+      background-color: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: border-color var(--duration) var(--ease-out),
+                  box-shadow var(--duration) var(--ease-out);
+      resize: vertical;
+    }
+
+    .feedback-field input::placeholder,
+    .feedback-field textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .feedback-field input:focus,
+    .feedback-field textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-bg);
+    }
+
+    .feedback-field textarea {
+      min-height: 100px;
+    }
+
+    .feedback-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background-color: var(--teal);
+      color: var(--bg);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: var(--space-2) var(--space-5);
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background-color var(--duration) var(--ease-out),
+                  opacity var(--duration) var(--ease-out);
+    }
+
+    .feedback-submit:hover {
+      background-color: var(--teal-dim);
+    }
+
+    .feedback-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .feedback-success {
+      display: none;
+      background-color: var(--teal-bg);
+      border: 1px solid var(--teal-border);
+      color: var(--teal);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      margin-top: var(--space-3);
+    }
+
+    .feedback-success.visible {
+      display: block;
+    }
+
+    /* Mobile adjustments */
     @media (max-width: 599px) {
-      .checklist-table .phase-label {
-        font-size: var(--text-xs);
-        min-width: 70px;
-        padding: var(--space-2) !important;
+      .feedback-box {
+        padding: var(--space-4);
       }
-      .checklist-table td {
-        padding: var(--space-2);
-        font-size: var(--text-xs);
+    }
+
+    /* Print: show all wf-item bodies */
+    @media print {
+      .wf-item-body {
+        display: block !important;
       }
-      .checklist-table .task-cell {
-        min-width: 260px;
+      .wf-item-chevron {
+        display: none;
       }
-      .view-controls {
-        flex-direction: column;
-        align-items: flex-start;
+      .feedback-box {
+        display: none;
       }
     }
   </style>
@@ -295,492 +575,683 @@
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="index.html">Home</a>
       <span class="separator" aria-hidden="true">→</span>
-      <span class="current">Epic Workflows</span>
+      <span class="current">Psychiatry Epic Workflows</span>
     </nav>
 
-    <h1 class="section-title">Epic Workflows</h1>
+    <h1 class="section-title">Psychiatry Epic Workflows</h1>
 
-    <!-- View Controls -->
-    <div class="view-controls">
-      <div class="view-toggle" role="tablist" aria-label="View toggle">
-        <button class="active" id="btnDetailed" role="tab" aria-selected="true" aria-controls="view-detailed">Detailed</button>
-        <button id="btnChecklist" role="tab" aria-selected="false" aria-controls="view-checklist">Checklist</button>
-      </div>
-    </div>
-
-    <!-- ============================================================
-         DETAILED VIEW
-         ============================================================ -->
-    <div class="workflow-view active" id="view-detailed">
-
-      <!-- ===== ADMISSION ===== -->
-      <div class="workflow-phase expanded" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Admission</div>
-            <div class="workflow-phase-subtitle">Admission Activity Tab → Admission Navigator</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== ADMISSION ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Admission</div>
+          <div class="workflow-phase-subtitle">Admission Activity Tab → Admission Navigator</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
 
-            <h4>Admission Documentation</h4>
-            <ul>
-              <li><strong>Problem List</strong> — Update once evaluation is complete. Mark the principal problem.</li>
-              <li><strong>Allergies</strong> — Confirm with patient and make necessary additions. Mark as Reviewed.</li>
-              <li><strong>Consents</strong> — Complete on admission if the patient is prescribed buprenorphine, methadone, or antipsychotics that we are likely to continue. Search <span class="sp" onclick="copySP(this)">sp: "MOUD"</span> (bup, methadone) or <span class="sp" onclick="copySP(this)">sp: "Psychotropic Medications Consent"</span> (antipsychotics).</li>
-              <li><strong>PDMP Status</strong> — Review PDMP. Mark as Reviewed.</li>
-            </ul>
+          <!-- Priority Note -->
+          <div class="priority-note">
+            <strong>Top priorities:</strong> (1) See/evaluate the patient, (2) Place admission orders, (3) Enter diagnoses. Prioritizing orders and diagnoses allows nursing to expedite the admission process, including their verbal handoff to the receiving unit.
+          </div>
 
-            <h4>History</h4>
-            <ul>
-              <li><strong>Med/Surg, Family</strong> — Review nursing entries. Document Family Psych History.</li>
-              <li><strong>Psychiatric History</strong> — Document thoroughly. For patients with extensive treatment histories, it's acceptable to consolidate multiple treatments into a single entry as long as pertinent information is captured.</li>
-              <li><strong>Substance Use Details</strong> — Review nursing screening documentation and update as needed. Drug section: make a selection (yes/not currently/never) for "Drug use" and skip subsequent subsections. <strong>Class section MUST be completed for Primary, Secondary, and Tertiary substance of choice — this is a Federal requirement.</strong> Complete [Drug] Details for each current and historic substance.</li>
-              <li><strong>Social History</strong> — Complete. Ensure Gender Identity is accurate for gender minorities.</li>
-              <li><strong>Trauma History</strong> — Record categories of traumas and approximate age. Avoid documenting sensitive details here (reserve those for the evaluation note if clinically appropriate).</li>
-            </ul>
+          <!-- Admission Documentation -->
+          <div class="wf-category">
+            <div class="wf-category-header">Admission Documentation</div>
 
-            <h4>Place Admission Orders → Admission Orders</h4>
-            <ul>
-              <li><strong>Reconcile home meds</strong> — Every home medication must be addressed: continue, don't continue, or order and hold.</li>
-              <li><strong>Order Sets:</strong>
+            <div class="wf-item" id="item-problem-list">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Problem List complete">
+                <span class="wf-item-title">Problem List</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Update once evaluation is complete. Mark the principal problem.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-allergies">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Allergies complete">
+                <span class="wf-item-title">Allergies</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Confirm with patient and make necessary additions. Mark as Reviewed.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-consents">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Consents complete">
+                <span class="wf-item-title">Consents</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Complete on admission if the patient is prescribed buprenorphine or methadone. Search <span class="sp" onclick="copySP(this)">"MOUD"</span> (bup, methadone). The Psychotropic Medications Consent (<span class="sp" onclick="copySP(this)">"Psychotropic Medications Consent"</span>) is only required if the patient is on antipsychotic medication AND has abnormal movements.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-pdmp">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark PDMP Status complete">
+                <span class="wf-item-title">PDMP Status</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Review PDMP. Mark as Reviewed.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-aims">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark AIMS Examination complete">
+                <span class="wf-item-title">AIMS Examination</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Must be documented for any patient on antipsychotic medication — whether we are continuing it, stopping it, or starting it. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKAIMS</span> (can be placed within the psych eval, progress note, or as a standalone note).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- History -->
+          <div class="wf-category">
+            <div class="wf-category-header">History</div>
+
+            <div class="wf-item" id="item-medsurg-family">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Med/Surg, Family complete">
+                <span class="wf-item-title">Med/Surg, Family</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Review nursing entries. Document Family Psych History.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-psych-history">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Psychiatric History complete">
+                <span class="wf-item-title">Psychiatric History</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Document thoroughly. For patients with extensive treatment histories, it's acceptable to consolidate multiple treatments into a single entry as long as pertinent information is captured.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-substance-use">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Substance Use Details complete">
+                <span class="wf-item-title">Substance Use Details</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Review nursing screening documentation and update as needed. Drug section: make a selection (yes/not currently/never) for "Drug use" and skip subsequent subsections. <strong class="text-red">Class section MUST be completed for Primary, Secondary, and Tertiary substance of choice — this is a Federal requirement.</strong> Complete [Drug] Details for each current and historic substance.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-social-history">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Social History complete">
+                <span class="wf-item-title">Social History</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Complete. Ensure Gender Identity is accurate for gender minorities.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-trauma-history">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Trauma History complete">
+                <span class="wf-item-title">Trauma History</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Record categories of traumas and approximate age. Avoid documenting sensitive details here (reserve those for the evaluation note if clinically appropriate).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Place Admission Orders -->
+          <div class="wf-category">
+            <div class="wf-category-header">Place Admission Orders</div>
+
+            <div class="wf-item" id="item-reconcile-meds">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Reconcile home meds complete">
+                <span class="wf-item-title">Reconcile home meds</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Every home medication must be addressed: continue, don't continue, or order and hold.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-order-sets">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Order Sets complete">
+                <span class="wf-item-title">Order Sets</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
                 <ul>
                   <li><em>JFK ADATC Admission ACU or ARS Order Set</em> (if primary care hasn't completed first)</li>
                   <li><em>SUD Monitoring and Treatment Order Set</em> (contains all detox protocols, MOUD, and MAUD)</li>
                 </ul>
-              </li>
-            </ul>
+              </div>
+            </div>
+          </div>
 
-            <h4>Notes and Assessments</h4>
-            <ul>
-              <li><strong>Comp Psych Eval</strong> — Also accessible via: Notes tab → New Note → Comp Psych Eval. SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKACUADMISSIONPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">sp: .JFKARSADMISSIONPSYCHIATRY</span></li>
-              <li><strong>Treatment Plan</strong> — Select Add Care Plan (unless one already exists). Add a plan for each problem requiring active management. IP Substance Use should apply to every patient.
+          <!-- Notes and Assessments -->
+          <div class="wf-category">
+            <div class="wf-category-header">Notes and Assessments</div>
+
+            <div class="wf-item" id="item-comp-psych-eval">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Comp Psych Eval complete">
+                <span class="wf-item-title">Comp Psych Eval</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Also accessible via: Notes tab → New Note → Comp Psych Eval. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKACUADMISSIONPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">.JFKARSADMISSIONPSYCHIATRY</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-treatment-plan">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Treatment Plan complete">
+                <span class="wf-item-title">Treatment Plan</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Select Add Care Plan (unless one already exists). Add a plan for each problem requiring active management. IP Substance Use should apply to every patient.</p>
                 <ul>
-                  <li>Add at least one <strong>Long-term goal</strong> — choose from list or use <span class="sp" onclick="copySP(this)">sp: .JFKPSYLTG</span>. End date: "t+365"</li>
-                  <li>Add at least one <strong>Short-term goal</strong> — choose from list or use <span class="sp" onclick="copySP(this)">sp: .JFKPSYSTG</span>. End date: "t+7" (ACU) or "t+14" (ARS)</li>
-                  <li>Add at least one <strong>Intervention</strong> per STG — choose from list or use <span class="sp" onclick="copySP(this)">sp: .JFKPSYINT</span>. Select a measurable frequency (not "as needed")</li>
+                  <li>Add at least one <strong>Long-term goal</strong> — choose from list or use <span class="sp" onclick="copySP(this)">.JFKPSYLTG</span>. End date: "t+365"</li>
+                  <li>Add at least one <strong>Short-term goal</strong> — choose from list or use <span class="sp" onclick="copySP(this)">.JFKPSYSTG</span>. End date: "t+7" (ACU) or "t+14" (ARS)</li>
+                  <li>Add at least one <strong>Intervention</strong> per STG — choose from list or use <span class="sp" onclick="copySP(this)">.JFKPSYINT</span>. Select a measurable frequency (not "as needed"). <strong>ACU frequency: Daily. ARS frequency: Weekly.</strong></li>
                   <li>Set the effective date 30 days out so the care plan does not expire</li>
                   <li>Select Plans → Start a New Plan → Multidisciplinary Treatment Plan</li>
                 </ul>
-              </li>
-              <li><strong>By end of shift:</strong> Update Handoff and Hospital Course (both in Sidebar). SmartPhrases: <span class="sp" onclick="copySP(this)">sp: .JFKHANDOFF</span> and <span class="sp" onclick="copySP(this)">sp: .JFKHOSPITALCOURSE</span></li>
-            </ul>
-
-            <h4>Admission Pearls</h4>
-            <div class="warning-banner">
-              <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <div class="banner-content">
-                <ul>
-                  <li>Orders signed in Admission Orders are held until patient arrives on unit. If a med is needed ASAP in the admissions hall, use the Orders activity or + ADD ORDER button, then notify admissions nursing immediately.</li>
-                  <li>Once evaluation is complete, prioritize writing admission orders and updating the problem list — this enables nursing to deliver a thorough handoff and expedite their admission process.</li>
-                  <li><strong>AIMS exam MUST be documented on admission</strong> for all patients currently on an antipsychotic (and at baseline before starting one). SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKAIMS</span> (can be placed within the psych eval, progress note, or as a standalone note).</li>
-                  <li>Referral documentation can be found in Media Manager (use the Search bar).</li>
-                </ul>
               </div>
             </div>
 
+            <div class="wf-item" id="item-handoff-hospital-course">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Handoff and Hospital Course complete">
+                <span class="wf-item-title">Handoff &amp; Hospital Course</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Update Handoff and Hospital Course (both in Sidebar). SmartPhrases: <span class="sp" onclick="copySP(this)">.JFKHANDOFF</span> and <span class="sp" onclick="copySP(this)">.JFKHOSPITALCOURSE</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-referral-docs">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Referral Docs complete">
+                <span class="wf-item-title">Referral Docs</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Check referral documentation in Media Manager (use the Search bar).</p>
+              </div>
+            </div>
           </div>
+
+          <!-- Admission Pearls -->
+          <div class="warning-banner" style="margin-top: var(--space-5);">
+            <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="banner-content">
+              <strong>Admission Pearls</strong>
+              <ul>
+                <li>Orders signed in Admission Orders are held until patient arrives on unit. If a med is needed ASAP in the admissions hall, use the Orders activity or + ADD ORDER button, then notify admissions nursing immediately.</li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- ===== FOLLOW UP ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Follow Up</div>
-            <div class="workflow-phase-subtitle">Progress notes and daily documentation</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== FOLLOW UP ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Follow Up</div>
+          <div class="workflow-phase-subtitle">Progress notes and daily documentation</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <ul>
-              <li>Notes tab → New Note → Progress Note. SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKACUPROGRESSNOTEPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">sp: .JFKARSPROGRESSNOTEPSYCHIATRY</span></li>
-              <li>Always update Handoff and Hospital Course (Sidebar). SmartPhrases: <span class="sp" onclick="copySP(this)">sp: .JFKHANDOFF</span> and <span class="sp" onclick="copySP(this)">sp: .JFKHOSPITALCOURSE</span></li>
-            </ul>
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
 
-            <h4>Follow Up Pearls</h4>
-            <div class="warning-banner">
-              <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <div class="banner-content">
-                <ul>
-                  <li>Use an existing progress note as your starting template via the copy button. Select the note type first. Verify all information is current before submitting.</li>
-                  <li>For the first progress note, reference the Comp Psych Eval when selecting Psychosocial Stressors.</li>
-                </ul>
+          <div class="wf-category">
+            <div class="wf-category-header">Progress Note</div>
+
+            <div class="wf-item" id="item-followup-note">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Progress Note complete">
+                <span class="wf-item-title">Progress Note</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </div>
+              <div class="wf-item-body">
+                <p>Notes tab → New Note → Progress Note. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKACUPROGRESSNOTEPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">.JFKARSPROGRESSNOTEPSYCHIATRY</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-followup-handoff">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Handoff and Hospital Course complete">
+                <span class="wf-item-title">Handoff &amp; Hospital Course</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Always update Handoff and Hospital Course (Sidebar). SmartPhrases: <span class="sp" onclick="copySP(this)">.JFKHANDOFF</span> and <span class="sp" onclick="copySP(this)">.JFKHOSPITALCOURSE</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="warning-banner" style="margin-top: var(--space-4);">
+            <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="banner-content">
+              <strong>Follow Up Pearls</strong>
+              <ul>
+                <li>Use an existing progress note as your starting template via the copy button. Select the note type first. Verify all information is current before submitting.</li>
+                <li>For the first progress note, reference the Comp Psych Eval when selecting Psychosocial Stressors.</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ===== TRANSFER ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Transfer</div>
-            <div class="workflow-phase-subtitle">ACU ↔ ARS unit transfers</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== TRANSFER ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Transfer</div>
+          <div class="workflow-phase-subtitle">ACU ↔ ARS unit transfers</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <ul>
-              <li><strong>Transfer tab → Transfer Orders:</strong> Click "Transfer Patient to new unit" order
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
+
+          <div class="wf-category">
+            <div class="wf-category-header">Transfer Orders</div>
+
+            <div class="wf-item" id="item-transfer-orders">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Transfer Orders complete">
+                <span class="wf-item-title">Transfer Orders</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p><strong>Transfer tab → Transfer Orders:</strong> Click "Transfer Patient to new unit" order</p>
                 <ul>
                   <li>Service: ADATC</li>
                   <li>Level of care: ACU → ARS is residential. For ARS → ACU diversion, select whichever LOC best applies</li>
                   <li>Review current orders for accuracy. Continue/DC/Modify as indicated</li>
                   <li>Activity level 3 for ARS; level 1 for ACU</li>
                   <li>Safety Check for ARS: q60m daytime, q30m nighttime</li>
+                  <li>Order an Inpatient Recreational Therapy Consult. In the comment field, enter "ARS transfer."</li>
                   <li><strong>No detox protocols, CIWA/COWS, or frequent PRNs for ARS patients.</strong> Exceptions must be confirmed with attending. In these cases, always inform the nurse supervisor and provide a warm handoff (verbal report) to the ARS psych provider.</li>
                 </ul>
-              </li>
-              <li>Notes tab → New Note → Progress Note. SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKTRANSFERSUMMARY</span></li>
-              <li><strong>Treatment Plan tab → Manage Plan &amp; Document Progress</strong>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-transfer-note">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Transfer Note complete">
+                <span class="wf-item-title">Transfer Note</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p><strong>Transfer Note</strong> — Notes tab → New Note → Progress Note. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKTRANSFERSUMMARY</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-transfer-treatment-plan">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Treatment Plan complete">
+                <span class="wf-item-title">Treatment Plan</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p><strong>Treatment Plan tab → Manage Plan &amp; Document Progress</strong></p>
                 <ul>
                   <li>→ Document Progress: Update goals (Progressing, Adequate for Transfer, Completed)</li>
                   <li>→ Manage Plan: Add additional STG + Intervention if needed (ensure at least one of each applies to rehab). Create a new plan (can carry forward the first one) → Plans → Start a New Plan → Multidisciplinary Treatment Plan</li>
                 </ul>
-              </li>
-              <li>Update the Handoff to clearly convey upcoming plans, recommendations, and action items.</li>
-            </ul>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-transfer-handoff">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Handoff complete">
+                <span class="wf-item-title">Handoff</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Update the Handoff to clearly convey upcoming plans, recommendations, and action items.</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- ===== DISCHARGE ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Discharge</div>
-            <div class="workflow-phase-subtitle">Ideally complete everything the day before, except signing the discharge summary</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== DISCHARGE ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Discharge</div>
+          <div class="workflow-phase-subtitle">Ideally complete everything the day before, except signing the discharge summary</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
 
-            <h4>Discharge Tab</h4>
-            <ul>
-              <li>Complete <strong>CSSRS Discharge Screener</strong></li>
-              <li>Update <strong>Problem List</strong> — ensure all SUDs have severity specifiers</li>
-              <li><strong>Discharge Orders:</strong>
+          <div class="wf-category">
+            <div class="wf-category-header">Discharge Tab</div>
+
+            <div class="wf-item" id="item-cssrs">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark CSSRS complete">
+                <span class="wf-item-title">CSSRS Discharge Screener</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Complete CSSRS Discharge Screener.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-dc-problem-list">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Problem List complete">
+                <span class="wf-item-title">Problem List</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Update Problem List — ensure all SUDs have severity specifiers.</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-discharge-orders">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Discharge Orders complete">
+                <span class="wf-item-title">Discharge Orders</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
                 <ul>
                   <li>Discharge Med Rec (done by primary care, except for unplanned after-hours discharges)</li>
-                  <li>Bridge prescription buprenorphine (when applicable)</li>
+                  <li>Bridge prescription buprenorphine (when applicable). Moonlighters and trainees do not have eRX privileges and must reach out to the attending or backup provider for this.</li>
                   <li>Click Discharge Patient order → Select Routine Discharge → Enter anticipated discharge date</li>
                   <li>Order Sets → Psychiatry Discharge Order Set</li>
                   <li>Personalize Psychiatry Discharge Instructions (can delete "Monitoring" section if primary care is contributing to the discharge; for after-hours, complete as best you can)</li>
                   <li>Add "How to Use Naloxone" discharge instructions, if applicable</li>
                 </ul>
-              </li>
-              <li><strong>Discharge Summary</strong> → Create Note. SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKDISCHARGESUMMARY</span>. Pro tip: reference the psych eval for Psychosocial Stressors, Suicide Risk, and Violence Risk sections. Make updates as applicable.</li>
-            </ul>
+              </div>
+            </div>
 
-            <h4>Treatment Plan</h4>
-            <ul>
-              <li>Treatment Plan tab → Document Progress → Resolve Plan. Goal closure guidance:
+            <div class="wf-item" id="item-discharge-summary">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Discharge Summary complete">
+                <span class="wf-item-title">Discharge Summary</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Create Note. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKDISCHARGESUMMARY</span>. Pro tip: reference the psych eval for Psychosocial Stressors, Suicide Risk, and Violence Risk sections. Make updates as applicable.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-category">
+            <div class="wf-category-header">Treatment Plan</div>
+
+            <div class="wf-item" id="item-dc-treatment-plan">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Treatment Plan complete">
+                <span class="wf-item-title">Document Progress &amp; Resolve Plan</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Treatment Plan tab → Document Progress → Resolve Plan. Goal closure guidance:</p>
                 <ul>
                   <li><strong>"Adequate for Discharge"</strong> — the patient has achieved the goal (e.g., detox complete or symptoms minimal)</li>
                   <li><strong>"Completed"</strong> — we are no longer managing that goal because they are leaving our care. The treatment episode is complete. This does not imply the goal was fully achieved.</li>
                   <li>If a patient is leaving with minimal progress and the problem remains tenuous (e.g., leaving against advice at the peak of withdrawal), document a brief note describing the situation. That note type is found in Treatment Plan tab → Summary and Note.</li>
                 </ul>
-              </li>
-            </ul>
+              </div>
+            </div>
+          </div>
 
-            <h4>Discharge Pearls</h4>
-            <div class="warning-banner">
-              <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <div class="banner-content">
-                <ul>
-                  <li>The discharge summary does not have to be finished before the patient leaves — prioritize orders and patient instructions so the AVS is ready.</li>
-                  <li>A pended discharge summary cannot be edited by a new author, but it can be easily copied into a new note.</li>
-                  <li>SmartPhrase <span class="sp" onclick="copySP(this)">sp: .EDLABS</span> provides a more condensed and readable labs report than the default options. Feel free to substitute it anywhere in Epic.</li>
-                  <li>Nursing executes the discharge order when all workflows are complete. If there's any uncertainty about whether the patient is actually leaving, still place the order and complete the full workflow — the order can be discontinued at any time.</li>
-                </ul>
+          <div class="warning-banner" style="margin-top: var(--space-4);">
+            <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="banner-content">
+              <strong>Discharge Pearls</strong>
+              <ul>
+                <li>The discharge summary does not have to be finished before the patient leaves — prioritize orders and patient instructions so the AVS is ready.</li>
+                <li>A pended discharge summary cannot be edited by a new author, but it can be easily copied into a new note.</li>
+                <li>SmartPhrase <span class="sp" onclick="copySP(this)">.EDLABS</span> provides a more condensed and readable labs report than the default options. Feel free to substitute it anywhere in Epic.</li>
+                <li>Nursing executes the discharge order when all workflows are complete. If there's any uncertainty about whether the patient is actually leaving, still place the order and complete the full workflow — the order can be discontinued at any time.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ADMISSION DENIAL ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Admission Denial <span class="meta-text">(formerly EMTALA)</span></div>
+          <div class="workflow-phase-subtitle">Patient presents for evaluation but is not admitted</div>
+        </div>
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
+          <p><em>This workflow applies to any patient who presents for evaluation but is not admitted for any reason. Nuances vary by reason — if unclear, discuss with your attending or psych backup provider.</em></p>
+
+          <div class="wf-category">
+            <div class="wf-category-header">Steps</div>
+
+            <div class="wf-item" id="item-denial-navigator">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Admission Denial Navigator complete">
+                <span class="wf-item-title">Admission Denial Navigator</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Discharge tab → Admission Denial subtab: Complete basic navigator sections (allergies, SUD history, medical history)</p>
               </div>
             </div>
 
+            <div class="wf-item" id="item-denial-note">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Medical Screening Exam note complete">
+                <span class="wf-item-title">Medical Screening Exam Note</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Notes tab → New Note → SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKMEDICALSCREENINGEXAMFOREMTALA</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-denial-consent">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark EMTALA Transfer consent complete">
+                <span class="wf-item-title">EMTALA Transfer Consent</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Consents → search "EMTALA Transfer" → complete consent with the patient</p>
+              </div>
+            </div>
           </div>
+
+          <div class="wf-category">
+            <div class="wf-category-header">If NOT being transferred for an EMTALA emergency</div>
+
+            <div class="wf-item" id="item-denial-naloxone">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Naloxone nursing communication complete">
+                <span class="wf-item-title">Naloxone (if appropriate)</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Order a Nursing Communication for naloxone (<strong>NOT a prescription</strong> to our pharmacy). Search orders for "Nursing Communication" and add the comment: "Please dispense OTC naloxone rescue kit with patient education"</p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-denial-instructions">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Discharge Instructions complete">
+                <span class="wf-item-title">Discharge Instructions</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Discharge tab → Admission Denial → Instructions for AVS → add SmartPhrase: <span class="sp" onclick="copySP(this)">JFKCRISISRESOURCELIST</span>. At the top of that section, include personalized follow-up recommendations.</p>
+                <p><strong>Do NOT place a discharge order</strong> — the patient was never admitted. Nursing removes the patient from the facility in Bed Manager.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- ===== ADMISSION DENIAL (formerly EMTALA) ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Admission Denial <span class="meta-text">(formerly EMTALA)</span></div>
-            <div class="workflow-phase-subtitle">Patient presents for evaluation but is not admitted</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== AFTERHOURS ADMISSION ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Afterhours Admission</div>
+          <div class="workflow-phase-subtitle">On-call admission workflow</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <p><em>This workflow applies to any patient who presents for evaluation but is not admitted for any reason. Nuances vary by reason — if unclear, discuss with your attending or psych backup provider.</em></p>
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
 
-            <ul>
-              <li>Discharge tab → Admission Denial subtab: Complete basic navigator sections (allergies, SUD history, medical history)</li>
-              <li>Notes tab → New Note → SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKMEDICALSCREENINGEXAMFOREMTALA</span></li>
-              <li>Consents → search "EMTALA Transfer" → complete consent with the patient</li>
-            </ul>
+          <div class="wf-category">
+            <div class="wf-category-header">Steps</div>
 
-            <h4>If the patient is NOT being transferred for an EMTALA emergency</h4>
-            <ul>
-              <li>If appropriate, order a Nursing Communication for naloxone (<strong>NOT a prescription</strong> to our pharmacy). Search orders for "Nursing Communication" and add the comment: "Please dispense OTC naloxone rescue kit with patient education"</li>
-              <li>Discharge tab → Admission Denial → Instructions for AVS → add SmartPhrase: <span class="sp" onclick="copySP(this)">sp: JFKCRISISRESOURCELIST</span>. At the top of that section, include personalized follow-up recommendations.</li>
-              <li><strong>Do NOT place a discharge order</strong> — the patient was never admitted. Nursing removes the patient from the facility in Bed Manager.</li>
-            </ul>
+            <div class="wf-item" id="item-afterhours-note">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark On-Call Admission Note complete">
+                <span class="wf-item-title">On-Call Admission Note</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Notes tab → New Note → Progress Note → SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKONCALLADMISSION</span></p>
+              </div>
+            </div>
+
+            <div class="wf-item" id="item-afterhours-orders">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Admission Orders complete">
+                <span class="wf-item-title">Admission Orders</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Admission tab → Admission Navigator → Place admission orders (refer to the standard Admission workflow above)</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- ===== AFTERHOURS ADMISSION ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Afterhours Admission</div>
-            <div class="workflow-phase-subtitle">On-call admission workflow</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== SIGNIFICANT EVENT ===== -->
+    <div class="workflow-phase" data-searchable>
+      <div class="workflow-phase-header" onclick="togglePhase(this)">
+        <div class="workflow-phase-header-text">
+          <div class="workflow-phase-title">Significant Event</div>
+          <div class="workflow-phase-subtitle">Events requiring documentation outside of a typical progress note</div>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <ul>
-              <li>Notes tab → New Note → Progress Note → SmartPhrase: <span class="sp" onclick="copySP(this)">sp: .JFKONCALLADMISSION</span></li>
-              <li>Admission tab → Admission Navigator → Place admission orders (refer to the standard Admission workflow above)</li>
-            </ul>
+        <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="workflow-phase-body">
+        <div class="workflow-phase-body-inner">
+          <p><em>Use this note type for events that require documentation outside of a typical progress note. This note type stands out during chart review and is trackable data in Epic.</em></p>
+
+          <h4>Use for</h4>
+          <ul class="use-list">
+            <li>Significant withdrawal complications (e.g., seizure, DTs) leading to an LOA to Mission</li>
+            <li>LOA to Mission for any reason</li>
+            <li>Patient injury (fall, physical altercation, etc.)</li>
+            <li>Behavioral discharge</li>
+            <li>Problematic behaviors leading to a behavioral treatment team and/or partnership agreement</li>
+          </ul>
+
+          <h4>Do NOT use for</h4>
+          <ul class="do-not-use-list">
+            <li>Routine withdrawal complications (e.g., repeated vomiting episodes, distress intolerance, yelling in room/milieu)</li>
+          </ul>
+
+          <div class="wf-category" style="margin-top: var(--space-4);">
+            <div class="wf-category-header">Steps</div>
+
+            <div class="wf-item" id="item-sig-event-note">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Significant Event note complete">
+                <span class="wf-item-title">Significant Event Note</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Notes tab → New Note → Significant Event → SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKSIGNIFICANTEVENT</span></p>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
+    </div>
 
-      <!-- ===== SIGNIFICANT EVENT ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Significant Event</div>
-            <div class="workflow-phase-subtitle">Events requiring documentation outside of a typical progress note</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- ===== FEEDBACK BOX ===== -->
+    <div class="feedback-box" id="feedbackBox">
+      <h2>Suggestions &amp; Feedback</h2>
+      <form class="feedback-form" id="feedbackForm" onsubmit="submitFeedback(event)">
+        <div class="feedback-field">
+          <label for="feedbackName">Your Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="feedbackName" name="name" placeholder="e.g., Dr. Smith" required>
         </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <p><em>Use this note type for events that require documentation outside of a typical progress note. This note type stands out during chart review and is trackable data in Epic.</em></p>
-
-            <h4>Use for</h4>
-            <ul class="use-list">
-              <li>Significant withdrawal complications (e.g., seizure, DTs) leading to an LOA to Mission</li>
-              <li>LOA to Mission for any reason</li>
-              <li>Patient injury (fall, physical altercation, etc.)</li>
-              <li>Behavioral discharge</li>
-              <li>Problematic behaviors leading to a behavioral treatment team and/or partnership agreement</li>
-            </ul>
-
-            <h4>Do NOT use for</h4>
-            <ul class="do-not-use-list">
-              <li>Routine withdrawal complications (e.g., repeated vomiting episodes, distress intolerance, yelling in room/milieu)</li>
-            </ul>
-
-            <p><strong>Steps:</strong> Notes tab → New Note → Significant Event Note. Update Handoff and Hospital Course as appropriate.</p>
-          </div>
+        <div class="feedback-field">
+          <label for="feedbackComment">Comment / Suggestion <span aria-hidden="true">*</span></label>
+          <textarea id="feedbackComment" name="comment" placeholder="Share a workflow tip, correction, or suggestion…" required></textarea>
         </div>
+        <button type="submit" class="feedback-submit" id="feedbackSubmitBtn">Submit</button>
+      </form>
+      <div class="feedback-success" id="feedbackSuccess" role="alert">
+        Thank you — your feedback has been recorded.
       </div>
-
-      <!-- ===== COMPUTER FOLDERS/FILES TO KNOW ===== -->
-      <div class="workflow-phase" data-searchable>
-        <div class="workflow-phase-header" onclick="togglePhase(this)">
-          <div class="workflow-phase-header-text">
-            <div class="workflow-phase-title">Computer Folders/Files to Know</div>
-            <div class="workflow-phase-subtitle">Key network drives and documents</div>
-          </div>
-          <svg class="workflow-phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="workflow-phase-body">
-          <div class="workflow-phase-body-inner">
-            <ul>
-              <li><strong>Pre-admission Treatment Planning</strong> — <span class="file-path">S:\PRIVATE\Pre-Admission Treatment Planning</span> (password: drugs). Contains notes on patients with prior issues (behavioral, withdrawal complications) that should be carefully considered before admission. Check this document for all after-hours walk-ins before completing your evaluation. Staff the case with your attending/backup if any questions about appropriateness.</li>
-              <li><strong>Pharmacy Formulary</strong> — <span class="file-path">S:\PUBLIC\Pharmacy\Formulary</span></li>
-              <li><strong>MOUD Directory</strong> — <span class="file-path">S:\PRIVATE\MOUD Directory</span>. Contains the OTP/OBOT directory spreadsheet (often more direct contact lines than main numbers) and a list of OTPs accepting walk-in intakes.</li>
-              <li><strong>Partnership Agreement</strong> — <span class="file-path">S:\PUBLIC\Downtime Documents &amp; Procedures\Epic Downtime\Provider Downtime Documents</span>. Paper form for addressing treatment-interfering behaviors (pending Epic template). Do not modify the original file — save as new before editing. After completion, leave form by Unit Coordinator's computer with a sticky note reading "scan into patient's chart."</li>
-              <li><strong>Epic Downtime Provider Documents</strong> — <span class="file-path">S:\PUBLIC\Downtime Documents &amp; Procedures\Epic Downtime\Provider Downtime Documents</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end #view-detailed -->
-
-
-    <!-- ============================================================
-         CHECKLIST VIEW
-         ============================================================ -->
-    <div class="workflow-view" id="view-checklist">
-      <div class="table-scroll">
-        <table class="checklist-table">
-          <thead>
-            <tr>
-              <th style="width: 36px;">✓</th>
-              <th style="width: 120px;">Phase</th>
-              <th>Task</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- ADMISSION -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="8">Admission</td>
-              <td class="task-cell">Admission tab → Admission Navigator → Admission Documentation: Problem List, Allergies, History sections, relevant Consents</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">History: Med/Surg, Family, Psychiatric, Substance Use Details (Primary/Secondary/Tertiary class = Federal req), Social, Trauma</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Reconcile home meds → Order Sets: JFK ADATC Admission ACU/ARS + SUD Monitoring and Treatment</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Comp Psych Eval: <span class="sp" onclick="copySP(this)">.JFKACUADMISSIONPSYCHIATRY</span> / <span class="sp" onclick="copySP(this)">.JFKARSADMISSIONPSYCHIATRY</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Treatment Plan: Care Plan + LTG (<span class="sp" onclick="copySP(this)">.JFKPSYLTG</span>) + STG (<span class="sp" onclick="copySP(this)">.JFKPSYSTG</span>) + Interventions (<span class="sp" onclick="copySP(this)">.JFKPSYINT</span>). Start Multidisciplinary Treatment Plan.</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Update Handoff (<span class="sp" onclick="copySP(this)">.JFKHANDOFF</span>) and Hospital Course (<span class="sp" onclick="copySP(this)">.JFKHOSPITALCOURSE</span>)</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">AIMS exam if on antipsychotic: <span class="sp" onclick="copySP(this)">.JFKAIMS</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Check referral docs in Media Manager</td>
-            </tr>
-
-            <!-- FOLLOW UP -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="2">Follow Up</td>
-              <td class="task-cell">Progress Note: <span class="sp" onclick="copySP(this)">.JFKACUPROGRESSNOTEPSYCHIATRY</span> / <span class="sp" onclick="copySP(this)">.JFKARSPROGRESSNOTEPSYCHIATRY</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Update Handoff (<span class="sp" onclick="copySP(this)">.JFKHANDOFF</span>) + Hospital Course (<span class="sp" onclick="copySP(this)">.JFKHOSPITALCOURSE</span>)</td>
-            </tr>
-
-            <!-- TRANSFER -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="4">Transfer</td>
-              <td class="task-cell">Transfer tab → Transfer Patient order. Service: ADATC. LOC: residential (ACU→ARS). Activity level 3 ARS / 1 ACU. Safety q60m day, q30m night.</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Transfer Summary: <span class="sp" onclick="copySP(this)">.JFKTRANSFERSUMMARY</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Document Progress → Update goals. Add STG/Interventions if needed. Start New Plan.</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Update Handoff with upcoming plans/recs/action items</td>
-            </tr>
-
-            <!-- DISCHARGE -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="5">Discharge</td>
-              <td class="task-cell">CSSRS Discharge Screener. Update Problem List (SUD severity specifiers).</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Discharge Orders → Psychiatry Discharge Order Set. Personalize discharge instructions. Add naloxone instructions if applicable.</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Bridge prescription buprenorphine (when applicable). Discharge Med Rec (after hours only).</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Discharge Summary: <span class="sp" onclick="copySP(this)">.JFKDISCHARGESUMMARY</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Treatment Plan → Close goals → Resolve Plan</td>
-            </tr>
-
-            <!-- ADMISSION DENIAL -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="6">Admission Denial</td>
-              <td class="task-cell">Discharge tab → Admission Denial subtab. Complete basic navigator (allergies, SUD hx, med hx).</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Consents → EMTALA Transfer → complete with patient</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Instructions for AVS → <span class="sp" onclick="copySP(this)">JFKCRISISRESOURCELIST</span> with personalized follow-up recommendations</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">If appropriate: Nursing Communication for naloxone (NOT a prescription)</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">New Note → <span class="sp" onclick="copySP(this)">.JFKMEDICALSCREENINGEXAMFOREMTALA</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell"><strong>Do NOT place a discharge order.</strong> Nursing removes patient in Bed Manager.</td>
-            </tr>
-
-            <!-- AFTERHOURS ADMISSION -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="2">Afterhours</td>
-              <td class="task-cell">Notes tab → Progress Note → <span class="sp" onclick="copySP(this)">.JFKONCALLADMISSION</span></td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Admission tab → Admission Navigator → Place admission orders (see Admission workflow)</td>
-            </tr>
-
-            <!-- SIGNIFICANT EVENT -->
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="phase-label" rowspan="3">Significant Event</td>
-              <td class="task-cell">Notes tab → New Note → Significant Event Note</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Update Handoff (as appropriate)</td>
-            </tr>
-            <tr data-searchable>
-              <td class="check-cell"><input type="checkbox" aria-label="Mark task complete"></td>
-              <td class="task-cell">Update Hospital Course with significant event</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div><!-- end #view-checklist -->
+    </div>
 
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      <p>JFK ADATC Clinical Reference · For internal use only · Not a substitute for clinical judgment</p>
+      <p style="margin-top: var(--space-2);">
+        <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      </p>
     </div>
   </footer>
 
-  <!-- Back to Top -->
+  <!-- Back to top -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15"/>
@@ -788,23 +1259,19 @@
   </button>
 
   <!-- SmartPhrase copy toast -->
-  <div class="sp-toast" id="spToast"></div>
+  <div class="sp-toast" id="spToast" aria-live="polite"></div>
 
   <script>
-  (function() {
-    'use strict';
-
-    /* ==========================================================
-       1. THEME TOGGLE
-       ========================================================== */
+    /* ================================================================
+       THEME TOGGLE
+       ================================================================ */
     const html = document.documentElement;
-    const toggle = document.getElementById('themeToggle');
-    const iconSun = toggle.querySelector('.icon-sun');
-    const iconMoon = toggle.querySelector('.icon-moon');
+    const themeToggle = document.getElementById('themeToggle');
+    const iconSun = themeToggle.querySelector('.icon-sun');
+    const iconMoon = themeToggle.querySelector('.icon-moon');
 
-    function setTheme(theme) {
+    function applyTheme(theme) {
       html.setAttribute('data-theme', theme);
-      // Theme stored in memory only
       if (theme === 'dark') {
         iconSun.style.display = '';
         iconMoon.style.display = 'none';
@@ -814,228 +1281,154 @@
       }
     }
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setTheme('light');
-    } else {
-      setTheme('dark');
-    }
+    // Init theme (no localStorage — always start dark per default)
+    applyTheme(html.getAttribute('data-theme') || 'dark');
 
-    toggle.addEventListener('click', function() {
+    themeToggle.addEventListener('click', () => {
       const current = html.getAttribute('data-theme');
-      setTheme(current === 'dark' ? 'light' : 'dark');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
+    /* ================================================================
+       WORKFLOW PHASE TOGGLE (top-level accordion)
+       ================================================================ */
+    function togglePhase(header) {
+      const phase = header.closest('.workflow-phase');
+      phase.classList.toggle('expanded');
+    }
 
-    /* ==========================================================
-       2. VIEW TOGGLE (Detailed / Checklist)
-       ========================================================== */
-    const btnDetailed = document.getElementById('btnDetailed');
-    const btnChecklist = document.getElementById('btnChecklist');
-    const viewDetailed = document.getElementById('view-detailed');
-    const viewChecklist = document.getElementById('view-checklist');
+    /* ================================================================
+       NESTED ITEM TOGGLE (level-2 collapsible)
+       ================================================================ */
+    function toggleItem(header) {
+      const item = header.closest('.wf-item');
+      item.classList.toggle('expanded');
+    }
 
-    function switchView(view) {
-      if (view === 'detailed') {
-        viewDetailed.classList.add('active');
-        viewChecklist.classList.remove('active');
-        btnDetailed.classList.add('active');
-        btnDetailed.setAttribute('aria-selected', 'true');
-        btnChecklist.classList.remove('active');
-        btnChecklist.setAttribute('aria-selected', 'false');
+    /* ================================================================
+       CHECKBOX TOGGLE (mark item complete)
+       ================================================================ */
+    function toggleCheck(event, checkbox) {
+      // Stop the click from also triggering toggleItem
+      event.stopPropagation();
+      const item = checkbox.closest('.wf-item');
+      if (checkbox.checked) {
+        item.classList.add('is-checked');
       } else {
-        viewChecklist.classList.add('active');
-        viewDetailed.classList.remove('active');
-        btnChecklist.classList.add('active');
-        btnChecklist.setAttribute('aria-selected', 'true');
-        btnDetailed.classList.remove('active');
-        btnDetailed.setAttribute('aria-selected', 'false');
+        item.classList.remove('is-checked');
       }
     }
 
-    btnDetailed.addEventListener('click', function() { switchView('detailed'); performSearch(); });
-    btnChecklist.addEventListener('click', function() { switchView('checklist'); performSearch(); });
+    /* ================================================================
+       SMARTPHRASE COPY
+       ================================================================ */
+    const spToast = document.getElementById('spToast');
+    let toastTimer = null;
 
-
-    /* ==========================================================
-       3. WORKFLOW PHASE EXPAND/COLLAPSE
-       ========================================================== */
-    window.togglePhase = function(headerEl) {
-      var phase = headerEl.closest('.workflow-phase');
-      if (phase) {
-        phase.classList.toggle('expanded');
-      }
-    };
-
-
-    /* ==========================================================
-       4. SMARTPHRASE CLICK-TO-COPY WITH TOAST
-       ========================================================== */
-    var toastEl = document.getElementById('spToast');
-    var toastTimer = null;
-
-    window.copySP = function(el) {
-      var text = el.textContent.trim();
-      // Remove the leading "sp: " prefix if present, keep the actual phrase
-      text = text.replace(/^sp:\s*/i, '');
-      // Also remove leading dots that might be from CSS ::before
-      // The actual text content already includes the dot from ::before pseudo-element,
-      // but textContent doesn't include pseudo-element content, so we're fine.
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() {
-          showToast('Copied: ' + text);
-        }).catch(function() {
-          fallbackCopy(text);
-        });
-      } else {
-        fallbackCopy(text);
-      }
-    };
-
-    function fallbackCopy(text) {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand('copy');
-        showToast('Copied: ' + text);
-      } catch(e) {
-        showToast('Copy failed');
-      }
-      document.body.removeChild(ta);
-    }
-
-    function showToast(msg) {
-      if (toastTimer) clearTimeout(toastTimer);
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      toastTimer = setTimeout(function() {
-        toastEl.classList.remove('show');
-      }, 2000);
-    }
-
-
-    /* ==========================================================
-       5. FULL-TEXT SEARCH WITH DEBOUNCE
-       ========================================================== */
-    var searchInput = document.getElementById('searchInput');
-    var searchCount = document.getElementById('searchCount');
-    var searchTimer = null;
-    var searchables = document.querySelectorAll('[data-searchable]');
-
-    searchInput.addEventListener('input', function() {
-      if (searchTimer) clearTimeout(searchTimer);
-      searchTimer = setTimeout(performSearch, 200);
-    });
-
-    function performSearch() {
-      var query = searchInput.value.trim().toLowerCase();
-
-      if (!query) {
-        // Clear all dimming
-        searchables.forEach(function(el) {
-          el.classList.remove('search-no-match');
-        });
-        // Also un-dim workflow phases
-        document.querySelectorAll('.workflow-phase').forEach(function(ph) {
-          ph.classList.remove('search-no-match');
-        });
-        searchCount.textContent = '';
-        searchCount.classList.remove('has-results');
-        return;
-      }
-
-      var matchCount = 0;
-      var activeView = document.querySelector('.workflow-view.active');
-
-      // Search within active view's searchable elements
-      var items = activeView.querySelectorAll('[data-searchable]');
-      items.forEach(function(el) {
-        var text = el.textContent.toLowerCase();
-        if (text.indexOf(query) !== -1) {
-          el.classList.remove('search-no-match');
-          matchCount++;
-          // If this is inside a workflow-phase, make sure the phase is visible
-          var phase = el.closest('.workflow-phase');
-          if (phase) {
-            phase.classList.remove('search-no-match');
-          }
-        } else {
-          el.classList.add('search-no-match');
-        }
+    function copySP(el) {
+      // Get raw text content (no prefix stripping needed — no sp: prefixes)
+      const text = el.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        spToast.textContent = 'Copied: ' + text;
+        spToast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => spToast.classList.remove('show'), 2000);
+      }).catch(() => {
+        // Fallback
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
       });
-
-      // For detailed view, also handle parent workflow-phase visibility
-      if (activeView.id === 'view-detailed') {
-        var phases = activeView.querySelectorAll('.workflow-phase');
-        phases.forEach(function(phase) {
-          var text = phase.textContent.toLowerCase();
-          if (text.indexOf(query) !== -1) {
-            phase.classList.remove('search-no-match');
-          } else {
-            phase.classList.add('search-no-match');
-          }
-        });
-        // Count phases that match
-        matchCount = 0;
-        phases.forEach(function(phase) {
-          if (!phase.classList.contains('search-no-match')) matchCount++;
-        });
-      }
-
-      if (matchCount > 0) {
-        searchCount.textContent = matchCount + ' match' + (matchCount === 1 ? '' : 'es');
-        searchCount.classList.add('has-results');
-      } else {
-        searchCount.textContent = 'No matches';
-        searchCount.classList.remove('has-results');
-      }
     }
 
-
-    /* ==========================================================
-       6. BACK TO TOP (rAF-throttled scroll listener)
-       ========================================================== */
-    var backBtn = document.getElementById('backToTop');
-    var scrollTicking = false;
-
-    window.addEventListener('scroll', function() {
-      if (!scrollTicking) {
-        requestAnimationFrame(function() {
-          if (window.scrollY > 300) {
-            backBtn.classList.add('visible');
-          } else {
-            backBtn.classList.remove('visible');
-          }
-          scrollTicking = false;
-        });
-        scrollTicking = true;
-      }
+    /* ================================================================
+       BACK TO TOP
+       ================================================================ */
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 400);
     }, { passive: true });
-
-    backBtn.addEventListener('click', function() {
+    backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    /* ================================================================
+       SEARCH
+       ================================================================ */
+    const searchInput = document.getElementById('searchInput');
+    const searchCountEl = document.getElementById('searchCount');
 
-    /* ==========================================================
-       7. CHECKLIST — Strike-through on check
-       ========================================================== */
-    document.querySelectorAll('.checklist-table input[type="checkbox"]').forEach(function(cb) {
-      cb.addEventListener('change', function() {
-        var row = this.closest('tr');
-        if (this.checked) {
-          row.classList.add('checked-row');
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      const phases = document.querySelectorAll('.workflow-phase[data-searchable]');
+
+      if (!query) {
+        phases.forEach(p => {
+          p.classList.remove('search-no-match');
+          // Collapse all wf-items back to default when search cleared
+        });
+        searchCountEl.textContent = '';
+        searchCountEl.classList.remove('has-results');
+        return;
+      }
+
+      let matchCount = 0;
+
+      phases.forEach(phase => {
+        const phaseText = phase.textContent.toLowerCase();
+        if (phaseText.includes(query)) {
+          phase.classList.remove('search-no-match');
+          // Auto-expand phase if it matches
+          phase.classList.add('expanded');
+          matchCount++;
+
+          // Also expand matching wf-items
+          phase.querySelectorAll('.wf-item').forEach(item => {
+            const itemText = item.textContent.toLowerCase();
+            if (itemText.includes(query)) {
+              item.classList.add('expanded');
+            }
+          });
         } else {
-          row.classList.remove('checked-row');
+          phase.classList.add('search-no-match');
         }
       });
+
+      if (matchCount > 0) {
+        searchCountEl.textContent = matchCount + ' section' + (matchCount === 1 ? '' : 's');
+        searchCountEl.classList.add('has-results');
+      } else {
+        searchCountEl.textContent = 'No results';
+        searchCountEl.classList.remove('has-results');
+      }
     });
 
-  })();
+    /* ================================================================
+       FEEDBACK FORM
+       ================================================================ */
+    // In-memory store (no localStorage)
+    const feedbackStore = [];
+
+    function submitFeedback(event) {
+      event.preventDefault();
+      const name = document.getElementById('feedbackName').value.trim();
+      const comment = document.getElementById('feedbackComment').value.trim();
+
+      if (!name || !comment) return;
+
+      // Store in memory
+      feedbackStore.push({ name, comment, timestamp: new Date().toISOString() });
+
+      // Reset form
+      document.getElementById('feedbackForm').reset();
+
+      // Show success message
+      const successEl = document.getElementById('feedbackSuccess');
+      successEl.classList.add('visible');
+      setTimeout(() => successEl.classList.remove('visible'), 5000);
+    }
   </script>
 </body>
 </html>

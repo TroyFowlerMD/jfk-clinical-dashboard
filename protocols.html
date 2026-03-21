@@ -17,7 +17,7 @@
 <link rel="author" href="https://www.perplexity.ai/computer">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clinical Protocols — JFK ADATC</title>
+  <title>JFK Detox Protocols — JFK ADATC</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
   <style>
@@ -216,6 +216,24 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
+
+    /* Feedback box */
+    .feedback-box { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-10); }
+    .feedback-box h2 { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--text); margin-bottom: var(--space-4); }
+    .feedback-form { display: flex; flex-direction: column; gap: var(--space-4); }
+    .feedback-field { display: flex; flex-direction: column; gap: var(--space-2); }
+    .feedback-field label { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; color: var(--text); }
+    .feedback-field input, .feedback-field textarea { background-color: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-3); font-size: var(--text-sm); color: var(--text); font-family: var(--font-body); transition: border-color var(--duration) var(--ease-out), box-shadow var(--duration) var(--ease-out); resize: vertical; }
+    .feedback-field input::placeholder, .feedback-field textarea::placeholder { color: var(--text-muted); }
+    .feedback-field input:focus, .feedback-field textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-bg); }
+    .feedback-field textarea { min-height: 100px; }
+    .feedback-submit { display: inline-flex; align-items: center; gap: var(--space-2); background-color: var(--teal); color: var(--bg); font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; padding: var(--space-2) var(--space-5); border-radius: var(--radius-md); border: none; cursor: pointer; align-self: flex-start; transition: background-color var(--duration) var(--ease-out), opacity var(--duration) var(--ease-out); }
+    .feedback-submit:hover { background-color: var(--teal-dim); }
+    .feedback-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .feedback-success { display: none; background-color: var(--teal-bg); border: 1px solid var(--teal-border); color: var(--teal); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-sm); margin-top: var(--space-3); }
+    .feedback-success.visible { display: block; }
+    @media (max-width: 599px) { .feedback-box { padding: var(--space-4); } }
+    @media print { .feedback-box { display: none; } }
   </style>
 </head>
 <body>
@@ -257,11 +275,11 @@
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="index.html">Home</a>
       <span class="separator" aria-hidden="true">→</span>
-      <span class="current">Clinical Protocols</span>
+      <span class="current">JFK Detox Protocols</span>
     </nav>
 
     <!-- Page Title -->
-    <h1 class="section-title">Clinical Protocols</h1>
+    <h1 class="section-title">JFK Detox Protocols</h1>
 
 
     <!-- ============================================================
@@ -841,6 +859,25 @@
       </div>
     </div>
 
+    <!-- Feedback Box -->
+    <div class="feedback-box">
+      <h2>Suggestions &amp; Feedback</h2>
+      <form class="feedback-form" id="feedbackForm" onsubmit="submitFeedback(event)">
+        <div class="feedback-field">
+          <label for="feedbackName">Your Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="feedbackName" name="name" placeholder="e.g., Dr. Smith" required>
+        </div>
+        <div class="feedback-field">
+          <label for="feedbackComment">Comment / Suggestion <span aria-hidden="true">*</span></label>
+          <textarea id="feedbackComment" name="comment" placeholder="Share a suggestion, correction, or comment…" required></textarea>
+        </div>
+        <button type="submit" class="feedback-submit">Submit</button>
+      </form>
+      <div class="feedback-success" id="feedbackSuccess" role="alert">
+        Thank you — your feedback has been recorded.
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -1005,6 +1042,18 @@
           }
         });
       });
+
+      // Feedback form
+      window.submitFeedback = function(event) {
+        event.preventDefault();
+        var nameVal = document.getElementById('feedbackName').value.trim();
+        var commentVal = document.getElementById('feedbackComment').value.trim();
+        if (!nameVal || !commentVal) return;
+        document.getElementById('feedbackForm').reset();
+        var successEl = document.getElementById('feedbackSuccess');
+        successEl.classList.add('visible');
+        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
+      };
 
     })();
   </script>
