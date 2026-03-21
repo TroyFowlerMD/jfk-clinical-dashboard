@@ -1405,30 +1405,8 @@
       }
     });
 
-    /* ================================================================
-       FEEDBACK FORM
-       ================================================================ */
-    // In-memory store (no localStorage)
-    const feedbackStore = [];
-
-    function submitFeedback(event) {
-      event.preventDefault();
-      const name = document.getElementById('feedbackName').value.trim();
-      const comment = document.getElementById('feedbackComment').value.trim();
-
-      if (!name || !comment) return;
-
-      // Store in memory
-      feedbackStore.push({ name, comment, timestamp: new Date().toISOString() });
-
-      // Reset form
-      document.getElementById('feedbackForm').reset();
-
-      // Show success message
-      const successEl = document.getElementById('feedbackSuccess');
-      successEl.classList.add('visible');
-      setTimeout(() => successEl.classList.remove('visible'), 5000);
-    }
+    /* Feedback form — handled by feedback-submit.js */
   </script>
+  <script src="feedback-submit.js"></script>
 </body>
 </html>

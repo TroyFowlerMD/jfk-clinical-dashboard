@@ -852,19 +852,10 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
-      // Feedback form
-      window.submitFeedback = function(event) {
-        event.preventDefault();
-        var nameVal = document.getElementById('feedbackName').value.trim();
-        var commentVal = document.getElementById('feedbackComment').value.trim();
-        if (!nameVal || !commentVal) return;
-        document.getElementById('feedbackForm').reset();
-        var successEl = document.getElementById('feedbackSuccess');
-        successEl.classList.add('visible');
-        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
-      };
+      // Feedback form — handled by feedback-submit.js
 
     })();
   </script>
+  <script src="feedback-submit.js"></script>
 </body>
 </html>
