@@ -461,10 +461,7 @@ a:hover { color: var(--teal-dim); }
   border-color: var(--teal);
 }
 
-.sp::before {
-  content: ".";
-  opacity: 0.6;
-}
+/* Period prefix removed — dot phrases already include the leading period in their text content */
 
 
 /* --------------------------------------------------------------------------

@@ -597,6 +597,18 @@
             <strong>Top priorities:</strong> (1) See/evaluate the patient, (2) Place admission orders, (3) Enter diagnoses. Prioritizing orders and diagnoses allows nursing to expedite the admission process, including their verbal handoff to the receiving unit.
           </div>
 
+          <!-- Pre-charting -->
+          <div class="wf-category">
+            <div class="wf-category-header">Pre-charting</div>
+            <div style="padding: 0 var(--space-3) var(--space-3);">
+              <h4 style="font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; color: var(--text); margin-bottom: var(--space-2); margin-top: var(--space-3);">Media</h4>
+              <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-2);">Chart Review → Media. This is where referral documents can be found (if the patient was not a walk-in). Look for "Referral" or "Ref" in the description column to find the referral document(s).</p>
+              <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-3);">This is also where you can check whether consents such as MOUD, Psychotropics (for patients with TD on antipsychotics), and Vivitrol have been completed.</p>
+              <h4 style="font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; color: var(--text); margin-bottom: var(--space-2); margin-top: var(--space-3);">Notes</h4>
+              <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.6;">Chart Review → Notes. Here you can see notes from past JFK admissions and some notes from outside facilities that use Epic.</p>
+            </div>
+          </div>
+
           <!-- Admission Documentation -->
           <div class="wf-category">
             <div class="wf-category-header">Admission Documentation</div>
@@ -645,6 +657,11 @@
               </div>
             </div>
 
+          </div>
+
+          <!-- Screenings and Scales -->
+          <div class="wf-category">
+            <div class="wf-category-header">Screenings and Scales</div>
             <div class="wf-item" id="item-aims">
               <div class="wf-item-header" onclick="toggleItem(this)">
                 <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark AIMS Examination complete">
@@ -652,7 +669,7 @@
                 <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </div>
               <div class="wf-item-body">
-                <p>Must be documented for any patient on antipsychotic medication — whether we are continuing it, stopping it, or starting it. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKAIMS</span> (can be placed within the psych eval, progress note, or as a standalone note).</p>
+                <p>Must be documented for any patient on antipsychotic medication — whether we are continuing it, stopping it, or starting it. Complete the AIMS exam within the Admission activity, under the Screenings and Scales section.</p>
               </div>
             </div>
           </div>
@@ -751,17 +768,6 @@
           <div class="wf-category">
             <div class="wf-category-header">Notes and Assessments</div>
 
-            <div class="wf-item" id="item-comp-psych-eval">
-              <div class="wf-item-header" onclick="toggleItem(this)">
-                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Comp Psych Eval complete">
-                <span class="wf-item-title">Comp Psych Eval</span>
-                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-              <div class="wf-item-body">
-                <p>Also accessible via: Notes tab → New Note → Comp Psych Eval. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKACUADMISSIONPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">.JFKARSADMISSIONPSYCHIATRY</span></p>
-              </div>
-            </div>
-
             <div class="wf-item" id="item-treatment-plan">
               <div class="wf-item-header" onclick="toggleItem(this)">
                 <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Treatment Plan complete">
@@ -780,6 +786,21 @@
               </div>
             </div>
 
+            <div class="wf-item" id="item-comp-psych-eval">
+              <div class="wf-item-header" onclick="toggleItem(this)">
+                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Comp Psych Eval complete">
+                <span class="wf-item-title">Comp Psych Eval</span>
+                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="wf-item-body">
+                <p>Also accessible via: Notes tab → New Note → Comp Psych Eval. SmartPhrase: <span class="sp" onclick="copySP(this)">.JFKACUADMISSIONPSYCHIATRY</span> or <span class="sp" onclick="copySP(this)">.JFKARSADMISSIONPSYCHIATRY</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Handoff & Hospital Course -->
+          <div class="wf-category">
+            <div class="wf-category-header">Handoff &amp; Hospital Course</div>
             <div class="wf-item" id="item-handoff-hospital-course">
               <div class="wf-item-header" onclick="toggleItem(this)">
                 <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Handoff and Hospital Course complete">
@@ -788,17 +809,6 @@
               </div>
               <div class="wf-item-body">
                 <p>Update Handoff and Hospital Course (both in Sidebar). SmartPhrases: <span class="sp" onclick="copySP(this)">.JFKHANDOFF</span> and <span class="sp" onclick="copySP(this)">.JFKHOSPITALCOURSE</span></p>
-              </div>
-            </div>
-
-            <div class="wf-item" id="item-referral-docs">
-              <div class="wf-item-header" onclick="toggleItem(this)">
-                <input type="checkbox" class="wf-item-checkbox" onclick="toggleCheck(event, this)" aria-label="Mark Referral Docs complete">
-                <span class="wf-item-title">Referral Docs</span>
-                <svg class="wf-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-              <div class="wf-item-body">
-                <p>Check referral documentation in Media Manager (use the Search bar).</p>
               </div>
             </div>
           </div>
