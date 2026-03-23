@@ -234,6 +234,150 @@
     .feedback-success.visible { display: block; }
     @media (max-width: 599px) { .feedback-box { padding: var(--space-4); } }
     @media print { .feedback-box { display: none; } }
+
+    /* General Notes Banner */
+    .general-notes-banner {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .general-notes-banner .gn-title {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: var(--space-3);
+    }
+    .general-notes-banner ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: gn-step;
+    }
+    .general-notes-banner ol li {
+      position: relative;
+      padding-left: var(--space-6);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-2);
+      max-width: none;
+      counter-increment: gn-step;
+    }
+    .general-notes-banner ol li:last-child { margin-bottom: 0; }
+    .general-notes-banner ol li::before {
+      content: counter(gn-step) ".";
+      position: absolute;
+      left: var(--space-2);
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Clinical Considerations */
+    .clinical-considerations {
+      margin-top: var(--space-4);
+      border-top: 1px solid var(--border);
+      padding-top: var(--space-4);
+    }
+    .cc-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      transition: color var(--duration) var(--ease-out);
+    }
+    .cc-toggle:hover { color: var(--text); }
+    .cc-toggle svg {
+      width: 14px;
+      height: 14px;
+      transition: transform var(--duration) var(--ease-out);
+    }
+    .clinical-considerations.cc-expanded .cc-toggle svg {
+      transform: rotate(180deg);
+    }
+    .cc-body {
+      display: none;
+      padding-top: var(--space-3);
+    }
+    .clinical-considerations.cc-expanded .cc-body {
+      display: block;
+    }
+    .cc-section {
+      margin-bottom: var(--space-4);
+    }
+    .cc-section:last-child { margin-bottom: 0; }
+    .cc-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--space-2);
+    }
+    .cc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .cc-list > li {
+      position: relative;
+      padding-left: var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-1);
+      max-width: none;
+    }
+    .cc-list > li::before {
+      content: "";
+      position: absolute;
+      left: var(--space-2);
+      top: 0.65em;
+      width: 4px;
+      height: 4px;
+      border-radius: var(--radius-full);
+      background-color: var(--text-muted);
+      opacity: 0.5;
+    }
+    .cc-list .cc-sub {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-1) 0 var(--space-1) var(--space-4);
+    }
+    .cc-list .cc-sub li {
+      position: relative;
+      padding-left: var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-1);
+      max-width: none;
+    }
+    .cc-list .cc-sub li::before {
+      content: "–";
+      position: absolute;
+      left: var(--space-1);
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+    .cc-note {
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: var(--space-2);
+      padding-left: var(--space-3);
+      border-left: 2px solid var(--border);
+    }
   </style>
 </head>
 <body>
@@ -280,6 +424,16 @@
 
     <!-- Page Title -->
     <h1 class="section-title">JFK Detox Protocols</h1>
+
+    <!-- General Notes -->
+    <div class="general-notes-banner">
+      <div class="gn-title">General Notes</div>
+      <ol>
+        <li>All protocols are a general starting point intended to work for many, but not all, individuals. A protocol should be considered an "initial best guess" as to the dosing that an individual may require; protocols often need to be altered based on clinical presentation.</li>
+        <li>All protocols can be modified when placing the initial protocol order (e.g., you may strike through all or some standing orders if desired).</li>
+        <li>When in doubt, <strong>call your backup psychiatric provider.</strong></li>
+      </ol>
+    </div>
 
 
     <!-- ============================================================
@@ -363,6 +517,48 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Preferred Protocol</div>
+                <ul class="cc-list">
+                  <li>PHENobarbital protocols (5-day and 3-day) are the preferred protocols for alcohol withdrawal at JFK</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Reasons Not to Choose PHENobarbital</div>
+                <ul class="cc-list">
+                  <li>Cirrhosis or other significant liver impairment</li>
+                  <li>Pregnancy</li>
+                  <li>Drug interactions — PHENobarbital has an extensive list of interactions. Common ones in this population include:
+                    <ul class="cc-sub">
+                      <li>Paxlovid, HIV medications, lamotrigine</li>
+                      <li>Direct oral anticoagulants: dabigatran (Pradaxa), rivaroxaban (Xarelto), apixaban (Eliquis), edoxaban (Savaysa)</li>
+                    </ul>
+                  </li>
+                </ul>
+                <p class="cc-note">PHENobarbital also induces the metabolism of methadone, buprenorphine, and many antipsychotics — not an absolute contraindication, but be mindful that this occurs.</p>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">PHENobarbital in Benzodiazepine Withdrawal</div>
+                <ul class="cc-list">
+                  <li>Less evidence supports its use in treating benzodiazepine withdrawal; anecdotally effective, but less supported by studies and guidelines than using benzodiazepines to treat benzo withdrawal</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -425,6 +621,48 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Preferred Protocol</div>
+                <ul class="cc-list">
+                  <li>PHENobarbital protocols (5-day and 3-day) are the preferred protocols for alcohol withdrawal at JFK</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Reasons Not to Choose PHENobarbital</div>
+                <ul class="cc-list">
+                  <li>Cirrhosis or other significant liver impairment</li>
+                  <li>Pregnancy</li>
+                  <li>Drug interactions — PHENobarbital has an extensive list of interactions. Common ones in this population include:
+                    <ul class="cc-sub">
+                      <li>Paxlovid, HIV medications, lamotrigine</li>
+                      <li>Direct oral anticoagulants: dabigatran (Pradaxa), rivaroxaban (Xarelto), apixaban (Eliquis), edoxaban (Savaysa)</li>
+                    </ul>
+                  </li>
+                </ul>
+                <p class="cc-note">PHENobarbital also induces the metabolism of methadone, buprenorphine, and many antipsychotics — not an absolute contraindication, but be mindful that this occurs.</p>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">PHENobarbital in Benzodiazepine Withdrawal</div>
+                <ul class="cc-list">
+                  <li>Less evidence supports its use in treating benzodiazepine withdrawal; anecdotally effective, but less supported by studies and guidelines than using benzodiazepines to treat benzo withdrawal</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 3 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -489,6 +727,51 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Long-Acting Benzodiazepine</div>
+                <ul class="cc-list">
+                  <li>DiazePAM and clonazePAM are long-acting benzos with significant hepatic metabolism; choice between them is largely based on clinician preference</li>
+                  <li>Meta-analytic data supports diazepam as the most effective benzodiazepine in alcohol withdrawal</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Advantages of Long-Acting Benzos</div>
+                <ul class="cc-list">
+                  <li>Longer coverage — less between-dose rebound/breakthrough symptoms</li>
+                  <li>Active metabolites provide self-tapering even after protocol completion, resulting in a smoother course</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Disadvantages of Long-Acting Benzos</div>
+                <ul class="cc-list">
+                  <li>Longer-acting means prolonged sedation and/or delirium if the protocol overshoots</li>
+                  <li>Significant hepatic metabolism — in the setting of liver disease, can "stack" and result in overmedication, sedation, delirium, or respiratory depression</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Avoid This Protocol In</div>
+                <ul class="cc-list">
+                  <li>Cirrhosis or other significant liver impairment</li>
+                  <li>Third trimester of pregnancy (use lorazepam) [ASAM Guideline]</li>
+                  <li>Light drinkers (this protocol contains a significant load of benzodiazepine)</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -564,6 +847,37 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Hepatic Advantage</div>
+                <ul class="cc-list">
+                  <li>Lorazepam is considered to have less dependence on hepatic metabolism than diazepam or clonazepam</li>
+                  <li>Preferred agent in patients with cirrhosis or significant liver impairment</li>
+                  <li>May also be preferable in the elderly or severely medically compromised</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">When to Use High-Dose Protocol</div>
+                <ul class="cc-list">
+                  <li>May be most appropriate in heavy drinkers for whom PHENobarbital, diazepam, or clonazepam protocols are contraindicated, or when a shorter-acting benzodiazepine is preferred</li>
+                  <li>Cumulative dosing is comparable to the clonazepam and diazepam protocols</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -637,6 +951,38 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Hepatic Advantage</div>
+                <ul class="cc-list">
+                  <li>Lorazepam is considered to have less dependence on hepatic metabolism than diazepam or clonazepam</li>
+                  <li>Preferred agent in patients with cirrhosis or significant liver impairment</li>
+                  <li>May also be preferable in the elderly or severely medically compromised</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">When to Use Low-Dose Protocol</div>
+                <ul class="cc-list">
+                  <li>May be most appropriate in patients with relatively lower alcohol consumption for whom PHENobarbital, diazepam, or clonazepam protocols are contraindicated</li>
+                  <li>May also be appropriate for the treatment of benzodiazepine withdrawal (assuming cumulative dosing is appropriate for the patient's reported amount used)</li>
+                  <li>This is the "lightest" of all alcohol withdrawal protocols at JFK</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -705,6 +1051,50 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Long-Acting Benzodiazepine</div>
+                <ul class="cc-list">
+                  <li>DiazePAM and clonazePAM are long-acting benzos with significant hepatic metabolism; choice between them is largely based on clinician preference</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Advantages of Long-Acting Benzos</div>
+                <ul class="cc-list">
+                  <li>Longer coverage — less between-dose rebound/breakthrough symptoms</li>
+                  <li>Active metabolites provide self-tapering even after protocol completion, resulting in a smoother course</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Disadvantages of Long-Acting Benzos</div>
+                <ul class="cc-list">
+                  <li>Longer-acting means prolonged sedation and/or delirium if the protocol overshoots</li>
+                  <li>Significant hepatic metabolism — in the setting of liver disease, can "stack" and result in overmedication, sedation, delirium, or respiratory depression</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Avoid This Protocol In</div>
+                <ul class="cc-list">
+                  <li>Cirrhosis or other significant liver impairment</li>
+                  <li>Third trimester of pregnancy (use lorazepam) [ASAM Guideline]</li>
+                  <li>Light drinkers (this protocol contains a significant load of benzodiazepine)</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days but can be modified</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -763,6 +1153,36 @@
                 <li>Discontinue clonidine and call PE/MD if systolic BP &lt;90 or if patient has signs/symptoms of low blood pressure (i.e., dizziness)</li>
                 <li>Repeat above steps in 60 minutes × 1</li>
               </ol>
+            </div>
+          </div>
+
+          <!-- Clinical Considerations -->
+          <div class="clinical-considerations">
+            <button class="cc-toggle" aria-expanded="false" onclick="this.parentElement.classList.toggle('cc-expanded'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('cc-expanded'))">
+              Clinical Considerations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cc-body">
+              <div class="cc-section">
+                <div class="cc-section-title">Opioid Withdrawal Supportive Protocol</div>
+                <ul class="cc-list">
+                  <li>A supportive protocol for symptomatic management of opioid withdrawal is the initial starting point at JFK for patients expected to experience opioid withdrawal</li>
+                  <li>Subsequently, MOUD should be offered by the patient's primary psychiatric provider when possible</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Prescribing Notes</div>
+                <ul class="cc-list">
+                  <li>Be mindful of the risks associated with individual medications within this protocol and modify based on patient-specific risk factors and medical comorbidities</li>
+                  <li>The initial dose of scheduled clonidine should be ordered to begin when withdrawal is anticipated to begin</li>
+                </ul>
+              </div>
+              <div class="cc-section">
+                <div class="cc-section-title">Protocol Duration</div>
+                <ul class="cc-list">
+                  <li>Generally a total of 5 days (with 3 days of scheduled doses) but can be modified</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
